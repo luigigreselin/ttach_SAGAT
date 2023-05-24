@@ -58,6 +58,31 @@ class VerticalFlip(DualTransform):
         return keypoints
 
 
+class ColorJitter(DualTransform):
+    """randomly changes the brightness and saturation of an image"""
+
+    identity_param = False
+
+    def __init__(self):
+        super().__init__("apply", [False, True])
+
+    def apply_aug_image(self, image, apply=False, **kwargs):
+        if apply:
+            image = F.coljitter(image)
+        return image
+
+    def apply_deaug_mask(self, mask, apply=False, **kwargs):
+        if apply:
+            mask = F.coljitter(mask)
+        return mask
+
+    def apply_deaug_label(self, label, apply=False, **kwargs):
+        return label
+
+    def apply_deaug_keypoints(self, keypoints, apply=False, **kwargs):
+        return keypoints
+
+
 class Rotate90(DualTransform):
     """Rotate images 0/90/180/270 degrees
 
@@ -242,7 +267,7 @@ class FiveCrops(ImageOnlyTransform):
 
     Args:
         crop_height (int): crop height in pixels
-        crop_width (int): crop width in pixels 
+        crop_width (int): crop width in pixels
     """
 
     def __init__(self, crop_height, crop_width):
