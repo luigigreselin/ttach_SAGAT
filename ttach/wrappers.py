@@ -57,7 +57,7 @@ class ClassificationTTAWrapper(nn.Module):
             (.forward(x) should return either torch.Tensor or Mapping[str, torch.Tensor])
         transforms (ttach.Compose): composition of test time transforms
         merge_mode (str): method to merge augmented predictions mean/gmean/max/min/sum/tsharpen
-        output_label_key (str): if model output is `dict`, specify which key belong to `label`
+        output_mask_key (str): if model output is `dict`, specify which key belong to `label`
     """
 
     def __init__(
@@ -80,7 +80,7 @@ class ClassificationTTAWrapper(nn.Module):
 
         for transformer in self.transforms:
             augmented_image = transformer.augment_image(image)
-            augmented_output = self.model(augmented_image, *args)
+            augmented_output = self.model({'inputs': augmented_image}, *args)
             if self.output_key is not None:
                 augmented_output = augmented_output[self.output_key]
             deaugmented_output = transformer.deaugment_label(augmented_output)
