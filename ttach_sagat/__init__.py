@@ -6,7 +6,7 @@ from .wrappers import (
 from .base import Compose
 
 from .transforms import (
-    HorizontalFlip, VerticalFlip, Rotate90, Scale, Add, Multiply, FiveCrops, Resize
+    HorizontalFlip, VerticalFlip, Rotate90, Scale, Add, Multiply, FiveCrops, Resize, ColorJitter
 )
 
 from . import aliases
