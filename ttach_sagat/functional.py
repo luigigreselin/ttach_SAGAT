@@ -1,5 +1,6 @@
 import torch
 import torch.nn.functional as F
+import torchvision.transform.functional as Ft
 
 
 def rot90(x, k=1):
@@ -17,6 +18,11 @@ def vflip(x):
     return x.flip(2)
 
 
+def coljitter(x, brightness_factor, contrast_factor):
+    """flip batch of images vertically"""
+    x = Ft.adjust_brightness(x, brightness_factor)
+    x = Ft.adjust_contrast(x, contrast_factor)
+    return x
 def sum(x1, x2):
     """sum of two tensors"""
     return x1 + x2
