@@ -63,10 +63,11 @@ class ColorJitter(DualTransform):
 
     identity_param = False
 
-    def __init__(self, brightness, contrast):
+    def __init__(self, brightness, contrast, hue):
         super().__init__("apply", [False, True])
         self.brightness = brightness
         self.contrast = contrast
+        self.hue = hue
 
     def apply_aug_image(self, image, apply=False, **kwargs):
         if apply:
@@ -75,7 +76,7 @@ class ColorJitter(DualTransform):
 
     def apply_deaug_mask(self, mask, apply=False, **kwargs):
         if apply:
-            mask = F.coljitter(mask, self.brightness, self.contrast)
+            mask = F.coljitter(mask, self.brightness, self.contrast, self.hue)
         return mask
 
     def apply_deaug_label(self, label, apply=False, **kwargs):

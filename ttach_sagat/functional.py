@@ -18,10 +18,11 @@ def vflip(x):
     return x.flip(2)
 
 
-def coljitter(x, brightness_factor, contrast_factor):
+def coljitter(x, brightness_factor, contrast_factor, hue_factor):
     """flip batch of images vertically"""
     x = Ft.adjust_brightness(x, brightness_factor)
     x = Ft.adjust_contrast(x, contrast_factor)
+    x = Ft.adjust_hue(x, hue_factor)
     return x
 def sum(x1, x2):
     """sum of two tensors"""
