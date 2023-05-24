@@ -21,17 +21,17 @@ Similar to what Data Augmentation is doing to the training set, the purpose of T
 
 ## Quick start
 
-#####  Segmentation model wrapping [[docstring](ttach/wrappers.py#L8)]:
+#####  Segmentation model wrapping [[docstring](ttach_sagat/wrappers.py#L8)]:
 ```python
 import ttach as tta
 tta_model = tta.SegmentationTTAWrapper(model, tta.aliases.d4_transform(), merge_mode='mean')
 ```
-#####  Classification model wrapping [[docstring](ttach/wrappers.py#L52)]:
+#####  Classification model wrapping [[docstring](ttach_sagat/wrappers.py#L52)]:
 ```python
 tta_model = tta.ClassificationTTAWrapper(model, tta.aliases.five_crop_transform())
 ```
 
-#####  Keypoints model wrapping [[docstring](ttach/wrappers.py#L96)]:
+#####  Keypoints model wrapping [[docstring](ttach_sagat/wrappers.py#L96)]:
 ```python
 tta_model = tta.KeypointsTTAWrapper(model, tta.aliases.flip_transform(), scaled=True)
 ```
@@ -111,7 +111,7 @@ mask = mean(masks)
 ## Installation
 PyPI:
 ```bash
-$ pip install ttach
+$ pip install ttach_sagat
 ```
 Source:
 ```bash
@@ -121,5 +121,5 @@ $ pip install git+https://github.com/qubvel/ttach
 ## Run tests
 
 ```bash
-docker build -f Dockerfile.dev -t ttach:dev . && docker run --rm ttach:dev pytest -p no:cacheprovider
+docker build -f Dockerfile.dev -t ttach_sagat:dev . && docker run --rm ttach_sagat:dev pytest -p no:cacheprovider
 ```
