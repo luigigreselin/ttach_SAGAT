@@ -64,23 +64,25 @@ class ClassificationTTAWrapper(nn.Module):
         self,
         model: nn.Module,
         transforms: Compose,
+        modalities: list[str],
         merge_mode: str = "mean",
         output_label_key: Optional[str] = None,
     ):
         super().__init__()
         self.model = model
         self.transforms = transforms
+        self.modalities = modalities
         self.merge_mode = merge_mode
         self.output_key = output_label_key
 
     def forward(
-        self, data: dict[str, torch.Tensor], modalities: list[str], *args
+        self, data: dict[str, torch.Tensor], *args
     ) -> Union[torch.Tensor, Mapping[str, torch.Tensor]]:
         merger = Merger(type=self.merge_mode, n=len(self.transforms))
 
         for transformer in self.transforms:
             augmented_data = {}
-            for modality in modalities:
+            for modality in self.modalities:
                 augmented_data[modality] = transformer.augment_image(data[modality])
 
             augmented_output = self.model(augmented_data, *args)
