@@ -74,13 +74,16 @@ class ClassificationTTAWrapper(nn.Module):
         self.output_key = output_label_key
 
     def forward(
-        self, image: torch.Tensor, *args
+        self, data: dict[str, torch.Tensor], modalities: list[str], *args
     ) -> Union[torch.Tensor, Mapping[str, torch.Tensor]]:
         merger = Merger(type=self.merge_mode, n=len(self.transforms))
 
         for transformer in self.transforms:
-            augmented_image = transformer.augment_image(image)
-            augmented_output = self.model({'inputs': augmented_image}, *args)
+            augmented_data = {}
+            for modality in modalities:
+                augmented_data[modality] = transformer.augment_image(data[modality])
+
+            augmented_output = self.model(augmented_data, *args)
             if self.output_key is not None:
                 augmented_output = augmented_output[self.output_key]
             deaugmented_output = transformer.deaugment_label(augmented_output)
