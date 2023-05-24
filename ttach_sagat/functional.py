@@ -1,6 +1,6 @@
 import torch
 import torch.nn.functional as F
-import torchvision.transform.functional as Ft
+import torchvision.transforms.functional as Ft
 
 
 def rot90(x, k=1):
